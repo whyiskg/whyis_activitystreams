@@ -1,2 +1,0 @@
-source venv/bin/activate
-whyis runserver -h 0.0.0.0
