@@ -82,7 +82,29 @@ twine upload dist/*
 ```
 
 ### Importing and using the package
+
+In order to use a Whyis plugin or agent created as a python package, the associated package should be installed.
+```
+pip install whyis_activitystreams
+```
+
+Within the whyis configuration file, the package contents should be imported.
 ```
 from whyis_activitystreams import *
 from whyis_activitystreams.activity_agent import ActivityAgent
+```
+
+Plugins should be included in the Plugin engine list.
+```
+PLUGINENGINE_PLUGINS = ["whyis_activitystreams"]
+```
+
+Agents should be included in the agent configuration.
+```
+INFERENCERS = {
+    "SETLr": autonomic.SETLr(),
+    "SETLMaker": autonomic.SETLMaker(),
+    "SDDAgent": autonomic.SDDAgent(),
+    "ActivityAgent": ActivityAgent()
+}
 ```
