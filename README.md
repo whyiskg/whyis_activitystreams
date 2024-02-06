@@ -1,8 +1,8 @@
 # Whyis Activitystreams Plugin Repo
 
 
-# Approach for creating a package for Whyis
-## Creating a project configuration
+## Approach for creating a package for Whyis
+### Creating a project configuration
 To configure the project for publishing to PyPi, create a `pyproject.toml` file. The file should have `setup-tools` required by the build system.
 ```
 [build-system]
@@ -34,7 +34,7 @@ whyis_activitystreams = "whyis_activitystreams:ActivityStreamsPlugin"
 whyis_activity_agent = "whyis_activitystreams.activity_agent:ActivityAgent"
 ```
 
-## Initialization
+### Initialization
 When creating a plugin, a directory should be created with the same name as the package specified in `tool.setuptools`, where names seperated by a period correspond to subdirectories. Within the plugin direction, a python file should be created that contains the main class of the plugin. This class should inherit from the Whyis Plugin class.
 ```{python}
 # plugin.py
@@ -50,7 +50,7 @@ from .activity_agent import *
 ```
 Note that package subdirectories should also contain their own `__init__.py` file.
 
-## Creating an agent
+### Creating an agent
 When creating an agent as an importable package, a python file with the class of that agent and its functionality should be created. That file should import the required packages from Whyis. `rdflib` is typically imported as well to work when working with RDF resources.
 ```
 from whyis.autonomic import UpdateChangeService
@@ -73,3 +73,16 @@ class ActivityAgent(UpdateChangeService):
         }'''
 ```
 
+### Building and publishing
+In order to publish to PyPi, you must have an account on PyPi set up. Once you do, you can publish the package through twine.
+```
+python -m pip install build twine
+python -m build
+twine upload dist/*
+```
+
+### Importing and using the package
+```
+from whyis_activitystreams import *
+from whyis_activitystreams.activity_agent import ActivityAgent
+```
