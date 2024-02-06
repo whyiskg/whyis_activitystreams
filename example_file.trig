@@ -5,6 +5,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
+
 # The Knowledge Graph Map Ontology (KGMO) is a novel way to note relationships
 # observationally and inductively and without triggering OWL semantics.
 # Publication venue and date TBD.
@@ -16,6 +17,7 @@
 @prefix prov: <http://www.w3.org/ns/prov#>.
 @prefix mediatype: <https://www.iana.org/assignments/media-types/>.
 @prefix dcterms: <http://purl.org/dc/terms/>.
+
 # For pv:File:
 @prefix pv: <http://purl.org/net/provenance/ns#>.
 # For ov:hasContentType:
@@ -70,7 +72,7 @@ pub:550e8400-e29b-41d4-a716-446655440000_assertion {
       ov:hasChecksum "abc123" ;  # automatic, TODO
       dcterms:created "2023-10-30-21T12:34:56Z"^^xsd:dateTime ; # automatic
       # ARCLIGHT ID, not really needed since we have the URI itself.
-      dc:identifier "550e8400-e29b-41d4-a716-446655440000" .
+      dcterms:identifier "550e8400-e29b-41d4-a716-446655440000" .
 }
 pub:550e8400-e29b-41d4-a716-446655440000_provenance {
   # This is empty, although maybe we put something like the checksum here?
@@ -82,7 +84,7 @@ pub:550e8400-e29b-41d4-a716-446655440000_pubinfo {
   # We link to the image itself in here, provide attribution for
   # the artifact, and find alignment between the ActivityPub-level
   # information artifact provenance and what Whyis already does.
-  pub:550e8400-e29b-41d4-a716-446655440000 a as:Image;
+  pub:550e8400-e29b-41d4-a716-446655440000 a as:Image ;
       as:name "A Flamingo!" ;
       as:url file:550e8400-e29b-41d4-a716-446655440000;
       as:attributedTo user:millerj;
@@ -127,7 +129,7 @@ pub:665e8400-e29b-41d4-a716-446655441111_assertion {
       a schema:ImageObject, pv:File,
         <https://www.iana.org/assignments/media-types/image>, # automatic
         <https://www.iana.org/assignments/media-types/image/png>; # automatic
-      ao:hasBoundingBox "50,20,300,200"^^
+      ao:hasBoundingBox "50,20,300,200" ;
       ov:hasContentType "application/png" ; # automatic
       schema:about entity:555447de-7c27-43dd-9cd7-7696c2ff49fa.
 
@@ -151,7 +153,7 @@ pub:665e8400-e29b-41d4-a716-446655441111_pubinfo {
       dcterms:created "2023-10-30-21T12:34:56Z"^^xsd:dateTime; # automatic
   .
 
-  action:665e8400-e29b-41d4-a716-446655441111 a ao:ObjectDetection. # added from agent.activity_type
+  action:665e8400-e29b-41d4-a716-446655441111 a ao:ObjectDetection ; # added from agent.activity_type
       prov:used file:550e8400-e29b-41d4-a716-446655440000.
 }
 
@@ -187,6 +189,6 @@ pub:78c9b455-ee4a-4598-a812-4dd01bb9399a_pubinfo {
       dcterms:created "2023-10-30-21T12:34:56Z"^^xsd:dateTime; # automatic
   .
 
-  action:78c9b455-ee4a-4598-a812-4dd01bb9399a a ao:ObjectDetection. # added from agent.activity_type
+  action:78c9b455-ee4a-4598-a812-4dd01bb9399a a ao:ObjectDetection ;# added from agent.activity_type
       prov:used file:550e8400-e29b-41d4-a716-446655440000_1.
 }

@@ -42,3 +42,4 @@ class ActivityAgent(UpdateChangeService):
     
     def process(self, i, o):
         context = self.get_context(i)
+        o.add(rdf.type,act.Object)
