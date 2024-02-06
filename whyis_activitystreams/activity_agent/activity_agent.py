@@ -28,7 +28,7 @@ class ActivityAgent(UpdateChangeService):
     
     def get_query(self):
         return '''select distinct ?resource where {
-            ?resource rdf:type [ rdfs:subClassOf* act:Object ] .
+            ?resource rdf:type [ rdfs:subClassOf* <https://www.w3.org/ns/activitystreams#Object> ] .
         }'''
         
     def get_context(self, i):

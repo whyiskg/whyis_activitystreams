@@ -9,6 +9,7 @@ description = "A whyis plugin to support the interpretation of activity streams.
 dependencies=[
   'whyis',
 ]
+
 [tool.setuptools]
 packages=['whyis_activitystreams', 'whyis_activitystreams.activity_agent']
 
