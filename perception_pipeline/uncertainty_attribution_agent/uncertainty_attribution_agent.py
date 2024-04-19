@@ -8,15 +8,16 @@ from flask import current_app
 
 import json
 import requests
-import numpy as np
-import matplotlib.pyplot as plt
+#import numpy as np
+#import matplotlib.pyplot as plt
 
-from whyis.namespace import sioc_types, sioc, schema, sio, dc, prov, whyis
+from whyis.namespace import sioc_types, sioc, sio, dc, prov, whyis
+schema = rdflib.URIRef("http://schema.org/")
 
 request_url = "http://127.0.0.1:9191/"
 
-class SelfCompareSaliencyMapAgent(UpdateChangeService):
-    activity_class = whyis.MappingSaliency # mapping saliency
+class UncertaintyAttributionAgent(UpdateChangeService):
+    activity_class = whyis.UncertaintyAttribution # attributing uncertainty
     def get_query(self):
         return '''SELECT DISTINCT ?resource WHERE { 
                     ?resource a %s.
@@ -27,13 +28,9 @@ class SelfCompareSaliencyMapAgent(UpdateChangeService):
         return schema.ImageObject
 
     def getOutputClass(self):
-        return whyis.SaliencyMappedImageObject
+        return whyis.UncertaintyAttributedImageObject
 
     def process(self, i, o):
-        r = requests.post(
-            request_url + "saliency_map",
-            json = {
-                "image_path":i.identifier
-            }
-        o.add(rdf.type,whyis.SaliencyMappedImageObject)
+        r = requests.post(request_url + "uncertainty_attribution",json = {"image_path":i.identifier})
+        o.add(rdf.type,whyis.UncertaintyAttributedImageObject)
         o.add(sioc.content,r.content)

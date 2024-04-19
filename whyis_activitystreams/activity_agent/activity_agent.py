@@ -6,7 +6,7 @@ import rdflib
 from flask import current_app
 
 
-from whyis.namespace import sioc_types, sioc, schema, sio, dc, prov, whyis
+from whyis.namespace import sioc_types, sioc, sio, dc, prov, whyis
 
 prefixes = dict(
     skos = rdflib.URIRef("http://www.w3.org/2004/02/skos/core#"),

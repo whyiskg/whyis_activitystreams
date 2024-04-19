@@ -8,15 +8,16 @@ from flask import current_app
 
 import json
 import requests
-import numpy as np
-import matplotlib.pyplot as plt
+#import numpy as np
+#import matplotlib.pyplot as plt
 
-from whyis.namespace import sioc_types, sioc, schema, sio, dc, prov, whyis
+from whyis.namespace import sioc_types, sioc, sio, dc, prov, whyis
+schema = rdflib.URIRef("http://schema.org/")
 
 request_url = "http://127.0.0.1:9191/"
 
-class ObjectDetectionAgent(UpdateChangeService):
-    activity_class = whyis.ObjectDetection # detecting object
+class PhotometricAttributeDetectionAgent(UpdateChangeService):
+    activity_class = whyis.PhotometricAttributeDetection # detecting object
     def get_query(self):
         return '''SELECT DISTINCT ?resource WHERE { 
                     ?resource a %s.
@@ -27,13 +28,9 @@ class ObjectDetectionAgent(UpdateChangeService):
         return schema.ImageObject
 
     def getOutputClass(self):
-        return whyis.ObjectDetectedImageObject
+        return whyis.PhotometricAttributeDetectedImageObject
 
     def process(self, i, o):
-        r = requests.post(
-            request_url + "object_detections",
-            json = {
-                "image_path":i.identifier
-            }
-        o.add(rdf.type,whyis.ObjectDetectedImageObject)
+        r = requests.post(request_url + "photometric_attributes",json = {"image_path":i.identifier})
+        o.add(rdf.type,whyis.GeometricAttributeDetectedImageObject)
         o.add(sioc.content,r.content)
