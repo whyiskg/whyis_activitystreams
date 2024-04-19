@@ -6,6 +6,8 @@ import rdflib
 from flask import current_app
 
 
+from whyis.namespace import sioc_types, sioc, schema, sio, dc, prov, whyis
+
 prefixes = dict(
     skos = rdflib.URIRef("http://www.w3.org/2004/02/skos/core#"),
     foaf = rdflib.URIRef("http://xmlns.com/foaf/0.1/"),
@@ -24,22 +26,19 @@ prefixes = dict(
 )
 
 class ActivityAgent(UpdateChangeService):
-    activity_class = NS.whyis.ActivityResolving # resolving activities
+    activity_class = whyis.ActivityResolution # resolving activities
     
     def get_query(self):
-        return '''select distinct ?resource where {
-            ?resource rdf:type [ rdfs:subClassOf* <https://www.w3.org/ns/activitystreams#Object> ] .
-        }'''
-        
-    def get_context(self, i):
-        context = []
-        for s, p, o in i.graph.triples((i.identifier,None,None)):
-            if p not in self.predicates:
-                if isinstance(p, rdflib.Literal):
-                    if o.datatype in self.context_datatypes:
-                        context.append(o.value)
-        return '\n'.join(context)
+        return '''SELECT DISTINCT ?resource WHERE { 
+                    ?resource rdf:type/rdf:subClassOf* %s.
+                    FILTER NOT EXISTS { ?resource a %s.}
+                  }''' % ( self.getInputClass().n3() , self.getOutputClass().n3() )
+
+    def getInputClass(self):
+        return rdflib.URIRef("https://www.w3.org/ns/activitystreams#Object")
+
+    def getOutputClass(self):
+        return whyis.ProcessedObject
     
     def process(self, i, o):
-        context = self.get_context(i)
-        o.add(rdf.type,act.Object)
+        o.add(rdf.type,whyis.ProcessedObject)
